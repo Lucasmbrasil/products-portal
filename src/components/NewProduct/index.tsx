@@ -6,6 +6,7 @@ import { Product } from "../../types/product";
 import { useNavigate } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { TextField } from "@mui/material";
 
 const NewProduct = () => {
   const { addProduct } = useProducts();
@@ -34,7 +35,7 @@ const NewProduct = () => {
   return (
     <>
       <form onSubmit={handleSubmit(handleNewProduct)}>
-        <input placeholder="Nome" {...register("name")} />
+        <TextField placeholder="Nome" {...register("name")} />
         <p>{errors.name?.message}</p>
         <input placeholder="Categoria" {...register("category")} />
         <p>{errors.category?.message}</p>

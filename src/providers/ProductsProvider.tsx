@@ -7,6 +7,7 @@ interface ProductsProviderProps {
 
 interface ProductsProviderData {
   productsList: Product[];
+  // productToEdit: object;
   addProduct: (data: Product) => void;
   deleteProduct: (product: Product) => void;
   editProduct: (product: Product) => void;
@@ -19,7 +20,7 @@ const ProductContext = createContext<ProductsProviderData>(
 
 export const ProductsProvider = ({ children }: ProductsProviderProps) => {
   const [productsList, setProductsList] = useState<Product[]>([]);
-
+  const [productToEdit, setProductToEdit] = useState<Product>();
   const addProduct = (product: Product) => {
     setProductsList([...productsList, product]);
   };
@@ -30,10 +31,10 @@ export const ProductsProvider = ({ children }: ProductsProviderProps) => {
     setProductsList(newProductsList);
   };
   const editProduct = (productToEdit: Product) => {
-    const newProduct = productsList.find(
+    const editProduct = productsList.find(
       (product) => product.productCode === productToEdit.productCode
     );
-    console.log(newProduct);
+    return editProduct;
   };
 
   return (
@@ -44,6 +45,7 @@ export const ProductsProvider = ({ children }: ProductsProviderProps) => {
         deleteProduct,
         editProduct,
         setProductsList,
+        // productToEdit,
       }}
     >
       {children}
