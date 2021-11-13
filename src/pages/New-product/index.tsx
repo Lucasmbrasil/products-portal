@@ -1,6 +1,6 @@
-import NewProduct from "../../components/NewProduct";
+import ProductForm from "../../components/ProductForm";
 
 const NewProductPage = () => {
-  return <NewProduct />;
+  return <ProductForm editing="" />;
 };
 export default NewProductPage;

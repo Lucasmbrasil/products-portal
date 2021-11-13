@@ -1,21 +1,16 @@
-import { Product } from "../../types/product";
-import "./style.css";
+import { ProductCardProps } from "../../types/product";
 
-const ProductCard = ({
-  name,
-  category,
-  productCode,
-  productProvider,
-  price,
-}: Product) => {
+import { ProductContainer } from "./style";
+
+const ProductCard = ({ item }: ProductCardProps) => {
   return (
-    <div className="cardContainer">
-      <p>{name}</p>
-      <p>{category}</p>
-      <p>{productCode}</p>
-      <p>{productProvider}</p>
-      <p>{price}</p>
-    </div>
+    <ProductContainer>
+      <h3>Nome: {item.name}</h3>
+      <p>Categoria: {item.category}</p>
+      <p>Código do produto: {item.productCode}</p>
+      <p>Fabricante: {item.productProvider}</p>
+      <p>Preço: {item.price}</p>
+    </ProductContainer>
   );
 };
 export default ProductCard;

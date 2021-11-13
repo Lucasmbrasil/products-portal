@@ -3,5 +3,11 @@ export interface Product {
   category: string;
   productCode: number;
   productProvider: string;
-  price: number;
+  price: string;
+}
+export interface EditingProps {
+  editing: string;
+}
+export interface ProductCardProps {
+  item: Product;
 }
