@@ -5,9 +5,8 @@ export const StyledDialogContent = styled(DialogContent)`
   display: flex;
 `;
 
-export const ProductContainer = styled.div`
+export const ProductEditContainer = styled.div`
   width: 300px;
-  margin-top: 20px;
 `;
 export const StyledDialogTitle = styled(DialogTitle)`
   text-align: center;

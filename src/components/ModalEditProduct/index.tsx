@@ -1,6 +1,6 @@
 import { Dialog } from "@mui/material";
 import {
-  ProductContainer,
+  ProductEditContainer,
   StyledDialogContent,
   StyledDialogTitle,
 } from "../../components/ModalEditProduct/style";
@@ -21,17 +21,18 @@ const ModalEditProduct = () => {
       >
         <StyledDialogTitle>Editar produto</StyledDialogTitle>
         <StyledDialogContent dividers>
-          <ProductContainer>
+          <ProductEditContainer>
+            <h2>Dados atuais do produto:</h2>
             {editingProduct !== undefined && (
-              <div>
+              <>
                 <p>Nome: {editingProduct!.name}</p>
                 <p>Categoria: {editingProduct!.category}</p>
                 <p>Código do produto: {editingProduct!.productCode}</p>
                 <p>Fabricante: {editingProduct!.productProvider}</p>
                 <p>Preço: {editingProduct!.price}</p>
-              </div>
+              </>
             )}
-          </ProductContainer>
+          </ProductEditContainer>
           <ProductForm editing="edit" />
         </StyledDialogContent>
       </Dialog>

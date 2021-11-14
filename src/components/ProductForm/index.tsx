@@ -5,7 +5,7 @@ import * as yup from "yup";
 import { EditingProps, Product } from "../../types/product";
 import { useProducts } from "../../providers/ProductsProvider";
 import { toast } from "react-toastify";
-import { Button, DialogActions, TextField } from "@mui/material";
+import { Button, DialogActions } from "@mui/material";
 import { useNavigate } from "react-router";
 import { useState } from "react";
 import NumberFormat from "react-number-format";
@@ -13,14 +13,7 @@ import NumberFormat from "react-number-format";
 const ProductForm = ({ editing }: EditingProps) => {
   const [price, setPrice] = useState<string>("");
   const [error, setError] = useState<boolean>(false);
-  const {
-    deleteProduct,
-    editProduct,
-    setModalEdit,
-    editingProduct,
-    productsList,
-    setProductsList,
-  } = useProducts();
+  const { editProduct, setModalEdit, productsList, addProduct } = useProducts();
   const [disable, setDisable] = useState<boolean>(false);
 
   const navigate = useNavigate();
@@ -45,12 +38,11 @@ const ProductForm = ({ editing }: EditingProps) => {
       toast.error("Produto de mesmo código já cadastrado!");
     } else if (error === false) {
       data["price"] = price;
-      deleteProduct(editingProduct);
       setDisable(true);
+      editProduct(data);
 
       toast.success("Produto cadastrado com sucesso!", {
         onClose: () => {
-          editProduct(data);
           setModalEdit(false);
           setDisable(false);
         },
@@ -59,17 +51,13 @@ const ProductForm = ({ editing }: EditingProps) => {
   };
   const handleNewProduct = (data: Product) => {
     const isEqual = productsList.find(
-      (produto) => produto.productProvider === data.productProvider
+      (produto) => produto.productCode === data.productCode
     );
-
     if (isEqual !== undefined) {
       toast.error("Produto de mesmo código já cadastrado!");
     } else if (error === false) {
-      data["price"] = price;
-      setProductsList([...productsList, data]);
-
       setDisable(true);
-
+      addProduct(data, price);
       toast.success("Produto cadastrado com sucesso!", {
         onClose: () => {
           navigate("/products");
@@ -78,6 +66,7 @@ const ProductForm = ({ editing }: EditingProps) => {
       });
     }
   };
+
   return (
     <FormContainer
       onSubmit={
@@ -86,8 +75,16 @@ const ProductForm = ({ editing }: EditingProps) => {
           : handleSubmit(handleNewProduct)
       }
     >
+      {editing === "edit" ? (
+        <h2>Editar produto</h2>
+      ) : (
+        <h2>Cadastrar produto</h2>
+      )}
       <StyledTextField
+        id="id"
         fullWidth
+        inputProps={{ style: { fontFamily: "'Dosis',sans-serif" } }}
+        InputLabelProps={{ style: { fontFamily: "'Dosis',sans-serif" } }}
         variant="outlined"
         label={editing === "edit" ? "Novo nome" : "Nome"}
         {...register("name")}
@@ -97,6 +94,8 @@ const ProductForm = ({ editing }: EditingProps) => {
 
       <StyledTextField
         fullWidth
+        inputProps={{ style: { fontFamily: "'Dosis',sans-serif" } }}
+        InputLabelProps={{ style: { fontFamily: "'Dosis',sans-serif" } }}
         variant="outlined"
         label={editing === "edit" ? "Nova categoria" : "Categoria"}
         {...register("category")}
@@ -105,6 +104,8 @@ const ProductForm = ({ editing }: EditingProps) => {
       />
       <StyledTextField
         fullWidth
+        inputProps={{ style: { fontFamily: "'Dosis',sans-serif" } }}
+        InputLabelProps={{ style: { fontFamily: "'Dosis',sans-serif" } }}
         variant="outlined"
         label={
           editing === "edit" ? "Novo código do produto" : "Código do produto"
@@ -116,6 +117,8 @@ const ProductForm = ({ editing }: EditingProps) => {
       <StyledTextField
         variant="outlined"
         fullWidth
+        inputProps={{ style: { fontFamily: "'Dosis',sans-serif" } }}
+        InputLabelProps={{ style: { fontFamily: "'Dosis',sans-serif" } }}
         label={editing === "edit" ? "Novo fabricante" : "Fabricante"}
         {...register("productProvider")}
         error={!!errors.productProvider}
@@ -123,12 +126,14 @@ const ProductForm = ({ editing }: EditingProps) => {
       />
       <NumberFormat
         fullWidth
+        inputProps={{ style: { fontFamily: "'Dosis',sans-serif" } }}
+        InputLabelProps={{ style: { fontFamily: "'Dosis',sans-serif" } }}
         label={editing === "edit" ? "Novo preço" : "Preço"}
         thousandsGroupStyle="thousand"
         prefix="R$"
         decimalSeparator=","
         displayType="input"
-        customInput={TextField}
+        customInput={StyledTextField}
         value={price}
         error={error}
         helperText={error && "Campo obrigatório"}

@@ -8,7 +8,7 @@ interface ProductsProviderProps {
 interface ProductsProviderData {
   productsList: Product[];
   // productToEdit: object;
-  // addProduct: (data: Product) => void;
+  addProduct: (data: Product | undefined, price: string) => void;
   deleteProduct: (product: Product | undefined) => void;
   editProduct: (product: Product | undefined) => void;
   setProductsList: React.Dispatch<React.SetStateAction<Product[]>>;
@@ -23,28 +23,48 @@ const ProductContext = createContext<ProductsProviderData>(
 );
 
 export const ProductsProvider = ({ children }: ProductsProviderProps) => {
-  const [productsList, setProductsList] = useState<Product[]>([]);
+  const [productsList, setProductsList] = useState<Product[]>(
+    JSON.parse(localStorage.getItem("products") || "[]")
+  );
   const [modalEdit, setModalEdit] = useState<boolean>(false);
   const [editingProduct, setEditingProduct] = useState<Product | undefined>();
 
   const deleteProduct = (productToDelete: Product | undefined) => {
-    const newProductsList = productsList.filter(
-      (product) => product.name !== productToDelete!.name
+    const productsStorageList: Product[] = JSON.parse(
+      localStorage.getItem("products") || "[]"
     );
+    const newProductsList = productsStorageList.filter(
+      (product) => product.productCode !== productToDelete!.productCode
+    );
+    localStorage.setItem("products", JSON.stringify(newProductsList));
     setProductsList(newProductsList);
   };
   const editProduct = (data: Product | undefined) => {
-    const productsStorageList = JSON.parse(
-      localStorage.getItem("products") || ""
+    const productsStorageList: Product[] = JSON.parse(
+      localStorage.getItem("products") || "[]"
     );
-    setProductsList([...productsStorageList, data]);
-  };
 
+    const newProductsList = productsStorageList.filter(
+      (product) => product.productCode !== editingProduct!.productCode
+    );
+    setProductsList([...newProductsList, data!]);
+    newProductsList.push(data!);
+    localStorage.setItem("products", JSON.stringify(newProductsList));
+  };
+  const addProduct = (data: Product | undefined, price: string) => {
+    const productsStorageList: Product[] = JSON.parse(
+      localStorage.getItem("products") || "[]"
+    );
+    data!["price"] = price;
+    setProductsList([...productsStorageList, data!]);
+    productsStorageList.push(data!);
+    localStorage.setItem("products", JSON.stringify(productsStorageList));
+  };
   return (
     <ProductContext.Provider
       value={{
         productsList,
-        // addProduct,
+        addProduct,
         deleteProduct,
         editProduct,
         setProductsList,
