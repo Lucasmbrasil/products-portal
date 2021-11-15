@@ -7,7 +7,8 @@ interface ProductsProviderProps {
 
 interface ProductsProviderData {
   productsList: Product[];
-  // productToEdit: object;
+  theme: boolean;
+  setTheme: React.Dispatch<React.SetStateAction<boolean>>;
   addProduct: (data: Product | undefined, price: string) => void;
   deleteProduct: (product: Product | undefined) => void;
   editProduct: (product: Product | undefined) => void;
@@ -23,6 +24,7 @@ const ProductContext = createContext<ProductsProviderData>(
 );
 
 export const ProductsProvider = ({ children }: ProductsProviderProps) => {
+  const [theme, setTheme] = useState<boolean>(true);
   const [productsList, setProductsList] = useState<Product[]>(
     JSON.parse(localStorage.getItem("products") || "[]")
   );
@@ -63,6 +65,8 @@ export const ProductsProvider = ({ children }: ProductsProviderProps) => {
   return (
     <ProductContext.Provider
       value={{
+        theme,
+        setTheme,
         productsList,
         addProduct,
         deleteProduct,

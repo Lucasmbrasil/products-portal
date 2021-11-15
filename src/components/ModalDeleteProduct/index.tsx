@@ -41,7 +41,6 @@ const ModalDeleteProduct = ({
             toast.success("Produto excluído com sucesso!", {
               onClose: () => {
                 deleteProduct(item);
-                //     setModalDelete(false);
               },
             });
           }}

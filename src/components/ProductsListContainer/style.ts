@@ -7,6 +7,9 @@ export const ProductsContainer = styled.div`
   grid-template-columns: repeat(5, 1fr);
   justify-items: center;
   align-items: flex-start;
+  h1 {
+    width: 100%;
+  }
   @media screen and (max-width: 1440px) {
     grid-template-columns: repeat(4, 1fr);
   }
@@ -21,8 +24,8 @@ export const ProductsContainer = styled.div`
   }
 `;
 export const MainContainer = styled.section`
-  width: 100%;
-  align-content: flex-start;
+  align-content: center;
+  flex-direction: column;
   display: flex;
   flex-wrap: wrap;
 `;

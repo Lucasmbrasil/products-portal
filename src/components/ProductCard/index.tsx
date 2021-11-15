@@ -2,11 +2,13 @@ import { MoreVertOutlined } from "@mui/icons-material";
 import { Menu, MenuItem } from "@mui/material";
 import { useState } from "react";
 import { useProducts } from "../../providers/ProductsProvider";
-import { ProductCardProps } from "../../types/product";
+import { Product } from "../../types/product";
 import ModalDeleteProduct from "../ModalDeleteProduct";
 
 import { Price, ProductContainer, StyledIconButton } from "./style";
-
+interface ProductCardProps {
+  item: Product;
+}
 const ProductCard = ({ item }: ProductCardProps) => {
   const { setModalEdit, setEditingProduct } = useProducts();
   const [modalDelete, setModalDelete] = useState<boolean>(false);
@@ -18,7 +20,6 @@ const ProductCard = ({ item }: ProductCardProps) => {
   const handleClose = () => {
     setAnchorEl(null);
   };
-  console.log(modalDelete);
   return (
     <ProductContainer>
       <div className="title">

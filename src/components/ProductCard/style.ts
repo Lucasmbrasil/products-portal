@@ -41,7 +41,7 @@ export const ProductContainer = styled.div`
   }
 `;
 export const Price = styled.h2`
-  margin: 0;
+  margin: 5px 0 0;
   color: black;
   font-weight: normal;
   font-size: 1.8rem;

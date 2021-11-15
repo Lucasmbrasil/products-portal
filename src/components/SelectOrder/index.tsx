@@ -5,12 +5,13 @@ interface SelectOrderProps {
   ordering: string;
   setOrdering: React.Dispatch<React.SetStateAction<string>>;
 }
+
 const SelectOrder = ({ ordering, setOrdering }: SelectOrderProps) => {
   return (
     <SelectOrderContainer>
-      {/* <p>Ordenar por:</p> */}
-      <FormControl variant="outlined" sx={{ m: 1, minWidth: 120 }}>
+      <FormControl sx={{ m: 1, minWidth: 130 }}>
         <Select
+          variant="standard"
           renderValue={(ordering) =>
             ordering.length > 2 ? ordering : <div>Ordenar por:</div>
           }

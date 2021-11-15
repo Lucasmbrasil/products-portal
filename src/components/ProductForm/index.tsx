@@ -2,18 +2,27 @@ import { FormContainer, StyledTextField } from "./style";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import { EditingProps, Product } from "../../types/product";
+import { Product } from "../../types/product";
 import { useProducts } from "../../providers/ProductsProvider";
 import { toast } from "react-toastify";
-import { Button, DialogActions } from "@mui/material";
+import { DialogActions } from "@mui/material";
 import { useNavigate } from "react-router";
 import { useState } from "react";
 import NumberFormat from "react-number-format";
-
+import { StyledButton } from "../Button/style";
+interface EditingProps {
+  editing: string;
+}
 const ProductForm = ({ editing }: EditingProps) => {
   const [price, setPrice] = useState<string>("");
   const [error, setError] = useState<boolean>(false);
-  const { editProduct, setModalEdit, productsList, addProduct } = useProducts();
+  const {
+    editProduct,
+    setModalEdit,
+    productsList,
+    addProduct,
+    editingProduct,
+  } = useProducts();
   const [disable, setDisable] = useState<boolean>(false);
 
   const navigate = useNavigate();
@@ -30,10 +39,15 @@ const ProductForm = ({ editing }: EditingProps) => {
   } = useForm({ resolver: yupResolver(schema) });
 
   const handleEditProduct = (data: Product) => {
-    const isEqual = productsList.find(
-      (produto) => produto.productProvider === data.productProvider
+    const editingProductList = productsList.filter(
+      (product) => product.productCode !== editingProduct!.productCode
     );
 
+    const isEqual = editingProductList.find(
+      (produto) => produto.productCode === data.productCode
+    );
+
+    // Condição para verificar se já existe um produto de mesmo código.
     if (isEqual !== undefined) {
       toast.error("Produto de mesmo código já cadastrado!");
     } else if (error === false) {
@@ -53,6 +67,7 @@ const ProductForm = ({ editing }: EditingProps) => {
     const isEqual = productsList.find(
       (produto) => produto.productCode === data.productCode
     );
+    // Condição para verificar se já existe um produto de mesmo código.
     if (isEqual !== undefined) {
       toast.error("Produto de mesmo código já cadastrado!");
     } else if (error === false) {
@@ -74,6 +89,7 @@ const ProductForm = ({ editing }: EditingProps) => {
           ? handleSubmit(handleEditProduct)
           : handleSubmit(handleNewProduct)
       }
+      className={editing === "edit" ? "editModalForm" : ""}
     >
       {editing === "edit" ? (
         <h2>Editar produto</h2>
@@ -148,18 +164,18 @@ const ProductForm = ({ editing }: EditingProps) => {
         fixedDecimalScale={false}
         isNumericString={false}
       />
-      <DialogActions>
+      <DialogActions className={editing === "edit" ? "editModalForm" : ""}>
         {editing === "edit" ? (
           <>
-            <Button
+            <StyledButton
               variant="contained"
               onClick={() => {
                 editing === "edit" && setModalEdit(false);
               }}
             >
               Cancelar
-            </Button>
-            <Button
+            </StyledButton>
+            <StyledButton
               type="submit"
               variant="contained"
               disabled={disable}
@@ -168,17 +184,17 @@ const ProductForm = ({ editing }: EditingProps) => {
               }}
             >
               Enviar
-            </Button>
+            </StyledButton>
           </>
         ) : (
-          <Button
+          <StyledButton
             type="submit"
             variant="contained"
             disabled={disable}
             onClick={() => price.length < 1 && setError(true)}
           >
             Enviar
-          </Button>
+          </StyledButton>
         )}
       </DialogActions>
     </FormContainer>

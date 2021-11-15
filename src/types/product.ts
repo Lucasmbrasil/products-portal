@@ -5,9 +5,3 @@ export interface Product {
   productProvider: string;
   price: string;
 }
-export interface EditingProps {
-  editing: string;
-}
-export interface ProductCardProps {
-  item: Product;
-}

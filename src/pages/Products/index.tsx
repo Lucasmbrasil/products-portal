@@ -1,21 +1,18 @@
-// import { useEffect } from "react";
-// import { useProducts } from "../../providers/ProductsProvider";
+import { motion } from "framer-motion";
 import ModalEditProduct from "../../components/ModalEditProduct";
 import ProductsListContainer from "../../components/ProductsListContainer";
 
 const Products = () => {
-  // const { productsList } = useProducts();
-
-  // useEffect(() => {
-  //   localStorage.setItem("products", JSON.stringify(productsList));
-  // }, [productsList]);
-
   return (
-    <>
-      <h1>Produtos cadastrados:</h1>
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.5 }}
+    >
       <ProductsListContainer />
       <ModalEditProduct />
-    </>
+    </motion.div>
   );
 };
 export default Products;
