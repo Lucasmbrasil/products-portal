@@ -21,7 +21,7 @@ const ModalEditProduct = () => {
       >
         <StyledDialogTitle>Editar produto</StyledDialogTitle>
         <StyledDialogContent dividers>
-          <ProductEditContainer>
+          {/* <ProductEditContainer>
             <h2>Dados atuais:</h2>
             {editingProduct !== undefined && (
               <>
@@ -32,7 +32,7 @@ const ModalEditProduct = () => {
                 <p>Preço: {editingProduct!.price}</p>
               </>
             )}
-          </ProductEditContainer>
+          </ProductEditContainer> */}
           <ProductForm editing="edit" />
         </StyledDialogContent>
       </Dialog>
