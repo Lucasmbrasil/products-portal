@@ -14,7 +14,8 @@ interface EditingProps {
   editing: string;
 }
 const ProductForm = ({ editing }: EditingProps) => {
-  const [price, setPrice] = useState<string>("");
+  const [price, setPrice] = useState<string>(" ");
+  console.log(price);
   const [error, setError] = useState<boolean>(false);
   const {
     editProduct,
@@ -51,7 +52,11 @@ const ProductForm = ({ editing }: EditingProps) => {
     if (isEqual !== undefined) {
       toast.error("Produto de mesmo código já cadastrado!");
     } else if (error === false) {
-      data["price"] = price;
+      if (price === " ") {
+        data["price"] = editingProduct!.price;
+      } else {
+        data["price"] = price;
+      }
       setDisable(true);
       editProduct(data);
 
@@ -81,7 +86,7 @@ const ProductForm = ({ editing }: EditingProps) => {
       });
     }
   };
-  const priceStringToNumber = (a: string) => {
+  const priceStringToNumber = (a: string): string => {
     let numberA = "";
     if (a.includes(",")) {
       let replacingA = a.replace(/[^0-9]/g, "");
@@ -157,8 +162,15 @@ const ProductForm = ({ editing }: EditingProps) => {
         fullWidth
         inputProps={{ style: { fontFamily: "'Dosis',sans-serif" } }}
         InputLabelProps={{ style: { fontFamily: "'Dosis',sans-serif" } }}
-        defaultValue={
-          editing === "edit" ? priceStringToNumber(editingProduct!.price) : ""
+        // defaultValue={
+        //   editing === "edit" ? priceStringToNumber(editingProduct!.price) : ""
+        // }
+        value={
+          editing === "edit"
+            ? price === " "
+              ? priceStringToNumber(editingProduct!.price)
+              : price
+            : price
         }
         label={editing === "edit" ? "Novo preço" : "Preço"}
         thousandsGroupStyle="thousand"

@@ -1,6 +1,5 @@
 import { Dialog } from "@mui/material";
 import {
-  ProductEditContainer,
   StyledDialogContent,
   StyledDialogTitle,
 } from "../../components/ModalEditProduct/style";
@@ -9,7 +8,7 @@ import "react-toastify/dist/ReactToastify.css";
 import ProductForm from "../ProductForm";
 
 const ModalEditProduct = () => {
-  const { modalEdit, setModalEdit, editingProduct } = useProducts();
+  const { modalEdit, setModalEdit } = useProducts();
 
   return (
     <>
